@@ -4,11 +4,14 @@
 #include<math.h>
 void swap(int *x1,int *x2);
 int Sum(struct Array arr1);
+struct Array * Union1(struct Array *arr1,struct Array *arr2);
+
 struct Array{
         int *a;
         int size;
         int length;
     };
+
    
 void Display(struct Array arr1)
 {   int i=0;
@@ -26,21 +29,21 @@ void delete1(struct Array &arr1,int index)
         arr1.a[index]=arr1.a[index+1];
         index++;
     }
-    arr1.length--;
+    --arr1.length;
 }
-void insert(struct Array &arr1,int x ,int pos)
+void insert(struct Array *arr1,int x ,int pos)
 {   int c=pos;
-    int n=arr1.length;
-    if (pos>=0 && pos<=arr1.length)
+    int n=arr1->length;
+    if (pos>=0 && pos<=arr1->length)
     {
         while(n>c)
         {
-            arr1.a[n]=arr1.a[n-1];
+            arr1->a[n]=arr1->a[n-1];
             n--;
 
         }
-        arr1.a[pos]=x;
-        arr1.length++;
+        arr1->a[pos]=x;
+        arr1->length++;
 
     }
     
@@ -249,13 +252,303 @@ void sort_neg(struct Array *arr1)
         
     }
 }
+struct Array * Merge(struct Array *arr1,struct Array *arr2)//Merges two sorted arrays 
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    struct Array *crr;
+    crr=new struct Array[20];
+    crr->size=20;
+    crr->length=arr1->length+arr2->length;
+    
+    while(i<arr1->length && j<arr2->length)
+    {
+        if(arr1->a[i]<arr2->a[j])
+        {
+            crr->a[k]=arr1->a[i];
+            ++i;++k;
+            //printf("%d is smaller than %d\n",arr1->a[i],arr2->a[j]);
+        }
+        else
+        {
+            crr->a[k]=arr2->a[j];
+            ++j;++k;
+            
+            //printf("%d is smaller than %d\n",arr2->a[j],arr1->a[i]);
+        }
+        
+    }
+    for(;i<arr1->length;i++)
+        crr->a[k++]=arr1->a[i];
 
+     for(;j<arr2->length;j++)
+        crr->a[k++]=arr2->a[j];
+    return crr;
 
+   
+}
+struct Array *Intersection(struct Array *arr1,struct Array *arr2)//Intersection two sorted arrays 
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    struct Array *crr;
+    crr=new struct Array[20];
+    crr->size=20;
+    
+    
+    while(i<arr1->length && j<arr2->length)
+    {
+        if(arr1->a[i]<arr2->a[j])
+        {
+            
+           
+             ++i;
+        }
+        else if((arr1->a[i]>arr2->a[j]))
+        {
+           
+           
+            
+             ++j;
+        }
+        else
+            
+        {
+            crr->a[k]=arr1->a[i];
+            
+             
+            }
+        
+        
+    }
+    crr->length=k;
+   
+    return crr;
+
+   
+}
+struct Array *Diff(struct Array *arr1,struct Array *arr2)//difference of two arrays
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    struct Array *crr;
+    crr=new struct Array[20];
+    crr->size=20;
+    
+    
+    while(i<arr1->length && j<arr2->length)
+    {
+        if((arr1->a[i]>arr2->a[j]))
+        {
+           
+           
+            
+             ++j;++k;
+        }
+        
+        else if (arr1->a[i]<arr2->a[j])
+        {
+            
+            crr->a[k]=arr1->a[i];
+             ++i;++k;
+        }
+        else
+            
+        {
+           ++i;++j;
+            
+             
+            }
+       
+        
+        
+    }
+    for (;i<arr1->length;i++)
+        crr->a[k]=arr1->a[i];
+    crr->length=k;
+   
+    return crr;
+
+   
+}
+struct Array * Union1(struct Array *arr1,struct Array *arr2)//Union two sorted arrays 
+{
+    int i,j,k;
+    i=0;j=0;k=0;
+    struct Array *crr;
+    crr=new struct Array[20];
+    crr->size=20;
+    
+    
+    while(i<arr1->length && j<arr2->length)
+    {
+        if(arr1->a[i]<arr2->a[j])
+        {
+            crr->a[k]=arr1->a[i];
+            ++i;++k;
+            //printf("%d is smaller than %d\n",arr1->a[i],arr2->a[j]);
+        }
+        else if((arr1->a[i]>arr2->a[j]))
+        {
+            crr->a[k]=arr2->a[j];
+            ++j;++k;
+            
+            //printf("%d is smaller than %d\n",arr2->a[j],arr1->a[i]);
+        }
+        else
+            
+        {
+            crr->a[k]=arr1->a[i];
+            ++i;++j;++k;
+            }
+        
+    }
+    
+    for(;i<arr1->length;i++)
+        crr->a[k++]=arr1->a[i];
+
+     for(;j<arr2->length;j++)
+        crr->a[k++]=arr2->a[j];
+    crr->length=k;
+    return crr;
+
+   
+}
+int Mis_Element_single(struct Array arr1)
+{ int i=0,sum=0,sum1=0,n=0;;
+    for(i=0.;i<arr1.length;i++)
+        sum=sum+arr1.a[i];
+    printf("%d\n",sum);
+    n=arr1.a[arr1.length-1] ;
+    sum1=n*(n+1)/2;
+     printf("%d\n",sum1);
+    return (sum1-sum);
+    
+
+}
+int_Mis_Element_single_2(struct Array arr1)
+{
+    int i=0,n=0;;
+    n=arr1.a[0];
+    for(i=1;i<arr1.length;i++)
+    {
+        if(arr1.a[i]-i!=n)
+            return n+i;
+    }
+    return 0;
+}
+void Mis_mul(struct Array arr1)
+{
+    int i=0,n=0;;
+    n=arr1.a[0];
+    for(i=1;i<arr1.length;i++)
+    {
+        if(arr1.a[i]-i!=n)
+        {
+            while(n<arr1.a[i]-i)
+           { printf("%d\n",i+n);
+             ++n;
+           }
+        }
+    }
+}
+void Mis_mul_2(struct Array arr1,int max,int min)
+{
+    int i=0,n=0;
+    struct Array *arr3;
+    n=min;
+    
+
+    arr3=new struct Array[20];
+    arr3->length=max+1;
+    for(i=0;i<arr3->length;i++)
+        arr3->a[i]=0;
+    for(i=0;i<arr1.length;i++)
+    {
+        
+        {
+           
+           ++arr3->a[arr1.a[i]];
+        }
+    }
+    for (i=min;i<arr3->length;i++)
+    {
+        if(arr3->a[i]==0)
+            printf("%d\n",i);
+    }
+}
+void dupli_unsorted(struct Array arr1)
+{
+    int i=0,j=0,count=0;
+    for(i=0;i<arr1.length-1;i++)
+    {
+        count =1;
+        if(arr1.a[i] >0)
+        {
+            for(j=i+1;j<arr1.length;j++)
+            {
+                if(arr1.a[i]==arr1.a[j])
+                {
+                
+                    count++;
+                    arr1.a[j]==-1;
+                }
+            }
+        }
+        if(count >1)
+            printf("%d \n",arr1.a[i]);
+
+    }
+}
+void find_pair(struct Array arr1,int sum1)
+{
+    int i=0,j=0,found=0,n=0;
+    for(i=0;i<arr1.length-1;i++)
+    {
+        n=sum1-arr1.a[i];
+        for(j=0;j<arr1.length;j++)
+        {
+            if(n==arr1.a[j])
+                {
+                    ++found;
+                    printf("%d and %d \n",arr1.a[i],arr1.a[j]);
+                    break;
+                }
+            if(found==1)
+                break;
+
+        }
+    }
+    if(found==0)
+        printf("element not found");
+}
+void find_pair_1(struct Array arr1,int sum1)
+{
+    int i=0,found=0,j=0;
+    for(i=0,j=arr1.length-1;i<j;)
+    {
+        if(arr1.a[i]+arr1.a[j]==sum1)
+        {
+            printf("%d and %d",arr1.a[i],arr1.a[j]);
+            i++;
+            j--;
+        }
+        else if (arr1.a[i]+arr1.a[j]<sum1)
+        i++;
+        else 
+        j--;
+    }
+}
 
 int main()
 {
-    struct Array arr;
-    int n=0,i=0,newno=0,x=0,s=0;
+    int x,index,ch,ans,sum;
+    x=index=0;
+
+    struct Array arr,brr;
+    
+    struct Array *crr;
+    int n=0,i=0;
     printf("Enter the size of an array");
     scanf("%d",&arr.size);
     arr.length=0;
@@ -269,23 +562,56 @@ int main()
             {
                 scanf("%d",&arr.a[i]);
             }
-   
-  
-    Display(arr);
-    printf("the length of the array is %d \n",arr.length);
-   
-    //s=get(arr,x);
-    //if(s=-1)
-     //   printf("invalid opearation");
-    //else
-      //  printf("the element at the index is %d",s);
-  
-  sort_neg(&arr);
-  Display(arr);
-  
+    
+   do
+ {
+ printf("\n\nMenu\n");
+ printf("1. Insert\n");
+ printf("2. Delete\n");
+ printf("3. Search\n");
+ printf("4. Sum\n");
+ printf("5. Display\n");
+ printf("6. Missing Element single\n");
+ printf("7.Duplicates in array\n");
+ printf("8.Pair of elements in array");
+ printf("9.Exit\n");
 
+ printf("enter you choice ");
+ scanf("%d",&ch);
+
+ switch(ch)
+ {
+ case 1: printf("Enter an element and index");
+ scanf("%d%d",&x,&index);
+ insert(&arr,x,index);
+ 
+ break;
+ case 2: printf("Enter index ");
+ scanf("%d",&index);
+ delete1(arr,index);
+ 
+
+ break;
+ case 3:printf("Enter element to search ");
+ scanf("%d",&x);
+ index=Linear_Search(&arr,x);
+ printf("Element index %d",index);
+ break;
+ case 4:printf("Sum is %d\n",Sum(arr));
+ break;
+ case 5:Display(arr);
+ case 6:printf("the missing elements are  ");
+ Mis_mul_2(arr,Max(arr),Min(arr));
+case 7:dupli_unsorted(arr);
+case 8:
+printf("Enter a sum to check the array");
+scanf("%d",&sum);
+find_pair_1(arr,sum);
+
+ }
+ }while(ch<=8);
     
-    
+
 
     
 
