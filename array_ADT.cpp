@@ -539,7 +539,14 @@ void find_pair_1(struct Array arr1,int sum1)
         j--;
     }
 }
+int string_len(struct Array arr1)
+{
+    int c=0,i=0;
+    for(i=0;arr1.a[i]!='\0',i++)
+        c++;
+    return c;
 
+}
 int main()
 {
     int x,index,ch,ans,sum;
