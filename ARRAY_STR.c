@@ -1,7 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 int length=0;
 char s1[17]="";
+int c=0;
 void len(char *s)
 {
     int i=0,c=0;
@@ -11,7 +13,7 @@ void len(char *s)
      
          length++;
     }
-    printf("%d",length);
+    //printf("%d",length);
 
 }
 void togg_Case(char *s)
@@ -149,17 +151,150 @@ void dupli(char *s)
             
     }
 }
+void duplibit(char *s)//find duplicates using bitwise operations
+{
+    int i=0,x=0;
+    long int h=0;
+    
+    for(i=0;s[i]!='\0';i++)
+
+    {   
+        x=1;
+        x=x<<(s[i]-65);
+        //printf("%c turn \n",s[i]);
+        if((x & h)>=1)
+           {
+                printf("%c is repeated \n",s[i]);
+           }
+        else 
+           { h=x | h;
+             //printf("%c not repeated x is %d\n",s[i],x);
+             }
+
+
+
+        
+    }
+}
+void anagram(char *s,char *s1)
+{
+    //long int n=0,h=0,x=0;
+    int i=0,c=0,c1=0,x=0;
+    char h[26]={0};
+    for(int i=0;i<26;i++)
+        h[i]=0;
+    for(i=0;s[i]!='\0';i++)
+    {
+        
+        c1=s[i]-65;
+        h[c1]++;
+
+    }
+    //printf("%d",n);
+    for(i=0;s1[i]!='\0';i++)
+    {   
+
+        
+        c1=s1[i]-65;
+
+        
+        h[c1]--;
+        if(h[c1]<0)
+            {
+                printf("not an anagram \n");
+                break;
+            }
+    }
+    if(s1[i]=='\0')
+        printf("%s and %s are anagrams\n",s,s1);
+
+}
+void permutation(char *s,int k)
+{
+    int i=0,j=0;
+    static int a[10]={0};
+    //int a[10]={10};
+    for(i =0;a[i]!='\0';i++)
+        printf("%d\n",a[i]);
+    static char re[10]="";
+    i=0;
+    if(s[k]=='\0')
+    {
+        re[k]='\0';
+        printf("%s\n",re);
+        k=0;
+        
+    }
+        
+    else 
+    {
+        for(i=0;s[i]!='\0';i++)
+        {
+        printf(" i is %d \n",i);    
+        if(a[i]==0)
+        {
+            printf(" i is %d \n",i);
+            re[k]=s[i];
+            printf("k is %d \n",k);
+            printf("re[k] is %c \n",re[k]);
+            a[i]=1;
+        
+            permutation(s,k+1);
+            a[i]=0;
+            printf("a[i] changed to zero is is %d\n",i);
+        }
+        }
+        
+    }
+
+}
+void swap(char *a,char *b)
+{
+    char temp;
+    temp=*a;
+    *a=*b;
+    *b=temp;
+}
+void perm1(char *s,int l,int h )
+{
+    int i=0,temp=0;
+    
+    for(i=l;i<=h;i++)
+    {
+        if(l!=h)
+        {   printf("i is %d ,l is %d,%c ,%c are swapped\n",i,l,s[i],s[l]);
+            swap(&s[i],&s[l]);
+            printf("calling recursive function with %s,%d,%d\n",s,l+1,h);
+            perm1(s,l+1,h);
+            printf("i is %d ,l is %d,%c ,%c are swapped\n",i,l,s[i],s[l]);
+            swap(&s[i],&s[l]); 
+            
+        }
+        else
+        {
+            printf("%s\n",s);
+        }
+    }
+
+    
+}
+
 main()
 {
     int i=0,c=0;
     
-    char str[]="My name is dency";
+    char str[]="abc";
     
   
-    char str1[]="mmaaddyy";
+    /*char str1[]="natia";
     upp_case(str1);
-    printf("%s",str1);
-    dupli(str1);
+    upp_case(str);
+    printf("%s \n",str1);
+    printf("%s \n",str);*/
+    //len(str);
+    perm1(str,0,2);
+    //swap(&str[0],&str[2]);
+    //printf("%s",str);
 
   
 
